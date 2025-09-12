@@ -127,7 +127,7 @@ const PricingCards = () => {
                     
                     <div className="mb-6">
                       <div className="flex items-baseline justify-center">
-                        <span className="text-5xl font-bold text-gray-900">${plan.price}</span>
+                        <span className="text-5xl font-bold text-gray-900">₹{plan.price}</span>
                         <span className="text-gray-600 ml-2">/ {plan.period}</span>
                       </div>
                       {plan.price > 0 && (
