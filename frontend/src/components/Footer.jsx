@@ -90,11 +90,11 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center text-gray-300">
                   <Phone className="w-4 h-4 mr-3" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+91 1234567890</span>
                 </div>
                 <div className="flex items-center text-gray-300">
                   <MapPin className="w-4 h-4 mr-3" />
-                  <span>San Francisco, CA</span>
+                  <span>Chennai, IN</span>
                 </div>
               </div>
             </div>
@@ -127,7 +127,7 @@ const Footer = () => {
         <div className="py-6 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Karpithal. All rights reserved.
+              © 2025 Karpithal. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">

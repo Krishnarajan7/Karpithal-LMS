@@ -4,7 +4,7 @@ import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 const testimonials = [
   {
     id: 1,
-    name: 'Jennifer Martinez',
+    name: 'Krishnarajan',
     role: 'Full Stack Developer',
     company: 'Tech Innovations Inc.',
     image: '👩‍💻',
@@ -14,7 +14,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: 'Michael Chen',
+    name: 'Vicky',
     role: 'UX Designer',
     company: 'Creative Studios',
     image: '👨‍🎨',
@@ -24,7 +24,7 @@ const testimonials = [
   },
   {
     id: 3,
-    name: 'Sarah Thompson',
+    name: 'Jamaliya',
     role: 'Digital Marketing Manager',
     company: 'Growth Marketing Co.',
     image: '👩‍💼',
@@ -34,7 +34,7 @@ const testimonials = [
   },
   {
     id: 4,
-    name: 'David Rodriguez',
+    name: 'Rajinikanth',
     role: 'Data Scientist',
     company: 'Analytics Pro',
     image: '👨‍🔬',
@@ -44,7 +44,7 @@ const testimonials = [
   },
   {
     id: 5,
-    name: 'Emma Johnson',
+    name: 'Kamal Hassan',
     role: 'Financial Advisor',
     company: 'Wealth Management LLC',
     image: '👩‍💼',
@@ -173,7 +173,7 @@ const Testimonials = () => {
               <div className="flex items-center space-x-2 mb-2">
                 <span className="text-2xl">👨‍💻</span>
                 <div>
-                  <p className="font-semibold text-sm">Alex Kim</p>
+                  <p className="font-semibold text-sm">Bala</p>
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="h-3 w-3 text-yellow-400 fill-current" />
@@ -190,7 +190,7 @@ const Testimonials = () => {
               <div className="flex items-center space-x-2 mb-2">
                 <span className="text-2xl">👩‍🎨</span>
                 <div>
-                  <p className="font-semibold text-sm">Lisa Wang</p>
+                  <p className="font-semibold text-sm">Kannan</p>
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="h-3 w-3 text-yellow-400 fill-current" />
