@@ -7,43 +7,43 @@
     /* Brand Colors - Professional Blue & Vibrant Orange */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
-    
+
     /* Cards & Surfaces */
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
-    
+
     /* Primary - Deep Professional Blue */
     --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-    
+
     /* Secondary - Vibrant Orange */
     --secondary: 25 95% 53%;
     --secondary-foreground: 0 0% 100%;
-    
+
     /* Neutral System */
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    
+
     --accent: 210 40% 96%;
     --accent-foreground: 240 10% 3.9%;
-    
+
     /* Status Colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    
+
     --success: 142 71% 45%;
     --success-foreground: 210 40% 98%;
-    
+
     --warning: 38 92% 50%;
     --warning-foreground: 210 40% 98%;
-    
+
     /* Interactive Elements */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221 83% 53%;
-    
+
     --radius: 0.5rem;
-    
+
     /* Popover */
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
@@ -62,32 +62,32 @@
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    
+
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-    
+
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    
+
     --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-    
+
     --secondary: 25 95% 53%;
     --secondary-foreground: 0 0% 100%;
-    
+
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    
+
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    
+
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 221 83% 53%;
-    
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -103,31 +103,37 @@
   * {
     @apply border-border;
   }
-  
+
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Poppins', sans-serif;
+    @apply bg-background text-foreground font-sans;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
   }
+
 }
 
 @layer components {
+
   /* Custom scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-track {
     @apply bg-muted;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-primary rounded-full;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-primary/80;
   }
@@ -159,6 +165,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -169,6 +176,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -179,6 +187,7 @@
     opacity: 0;
     transform: translateX(-50px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -190,6 +199,7 @@
     opacity: 0;
     transform: translateX(50px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -201,13 +211,16 @@
     opacity: 0;
     transform: scale(0.3);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.05);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);

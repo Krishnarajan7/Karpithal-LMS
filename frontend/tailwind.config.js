@@ -18,7 +18,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["Poppins", "sans-serif"],
+        sans: ["Plus Jakarta Sans", "sans-serif"], 
+        heading: ["Cabinet Grotesk", "sans-serif"], 
       },
       colors: {
         border: "hsl(var(--border))",

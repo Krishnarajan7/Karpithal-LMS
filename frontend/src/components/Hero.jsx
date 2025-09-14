@@ -332,7 +332,7 @@ const Hero = ({ onGetStarted, onExploreCourses }) => {
 
               {/* Floating Achievement Card */}
               <div
-                className="absolute -top-2 right-2 sm:-top-4 sm:-right-4 bg-white rounded-lg shadow-lg p-3 sm:p-4 animate-bounce-in scale-90 sm:scale-100"
+                className="absolute -top-2 right-2 sm:-top-4 sm:-right-4 bg-white rounded-lg shadow-lg  sm:p-1 animate-bounce-in scale-90 sm:scale-100"
                 style={{ zIndex: 10 }}
               >
                 <div className="flex items-center space-x-2 sm:space-x-3">
@@ -352,7 +352,7 @@ const Hero = ({ onGetStarted, onExploreCourses }) => {
 
               {/* Floating Student Card */}
               <div
-                className="absolute -bottom-6 left-2 sm:-bottom-6 sm:-left-4 bg-white rounded-lg shadow-lg p-3 sm:p-4 animate-bounce-in scale-90 sm:scale-100"
+                className="absolute -bottom-6 left-2 sm:-bottom-6 sm:-left-4 bg-white rounded-lg shadow-lg p-1 sm:p-1 animate-bounce-in scale-90 sm:scale-100"
                 style={{ animationDelay: "0.5s", zIndex: 10 }}
               >
                 <div className="flex items-center space-x-2 sm:space-x-3">

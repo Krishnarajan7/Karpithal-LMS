@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Send,
   BarChart2,
   Globe,
   Video,
@@ -13,6 +12,7 @@ import {
   AudioLines,
 } from "lucide-react";
 
+// Debounce hook
 function useDebounce(value, delay = 500) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -21,9 +21,7 @@ function useDebounce(value, delay = 500) {
       setDebouncedValue(value);
     }, delay);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [value, delay]);
 
   return debouncedValue;
@@ -78,6 +76,7 @@ function ActionSearchBar({ actions = allActions }) {
   const [isFocused, setIsFocused] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const debouncedQuery = useDebounce(query, 200);
 
   useEffect(() => {
@@ -103,6 +102,40 @@ function ActionSearchBar({ actions = allActions }) {
   const handleInputChange = (e) => {
     setQuery(e.target.value);
     setIsTyping(true);
+    setHighlightedIndex(-1);
+  };
+
+  const handleFocus = () => {
+    setSelectedAction(null);
+    setIsFocused(true);
+  };
+
+  const handleKeyDown = (e) => {
+    if (!result || !result.actions) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) =>
+        prev < result.actions.length - 1 ? prev + 1 : 0
+      );
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) =>
+        prev > 0 ? prev - 1 : result.actions.length - 1
+      );
+    }
+
+    if (e.key === "Enter" && highlightedIndex >= 0) {
+      setSelectedAction(result.actions[highlightedIndex]);
+      setIsFocused(false);
+    }
+
+    if (e.key === "Escape") {
+      setIsFocused(false);
+      setQuery("");
+    }
   };
 
   const container = {
@@ -111,9 +144,7 @@ function ActionSearchBar({ actions = allActions }) {
       opacity: 1,
       height: "auto",
       transition: {
-        height: {
-          duration: 0.4,
-        },
+        height: { duration: 0.4 },
         staggerChildren: 0.1,
       },
     },
@@ -121,12 +152,8 @@ function ActionSearchBar({ actions = allActions }) {
       opacity: 0,
       height: 0,
       transition: {
-        height: {
-          duration: 0.3,
-        },
-        opacity: {
-          duration: 0.2,
-        },
+        height: { duration: 0.3 },
+        opacity: { duration: 0.2 },
       },
     },
   };
@@ -136,113 +163,89 @@ function ActionSearchBar({ actions = allActions }) {
     show: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.3,
-      },
+      transition: { duration: 0.3 },
     },
     exit: {
       opacity: 0,
       y: -10,
-      transition: {
-        duration: 0.2,
-      },
+      transition: { duration: 0.2 },
     },
   };
 
-  const handleFocus = () => {
-    setSelectedAction(null);
-    setIsFocused(true);
-  };
-
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <div className="relative flex flex-col justify-start items-center min-h-[300px]">
-        <div className="w-full max-w-sm sticky top-0 bg-background z-10 pt-4 pb-1">
-          <div className="relative">
-            <Input
-              type="text"
-              placeholder="Search courses..."
-              value={query}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-              className="pl-10 pr-9 py-2 h-10 text-sm rounded-lg focus-visible:ring-offset-0 border-gray-200 focus:border-primary"
-            />
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4">
-              <AnimatePresence mode="popLayout">
-                {query.length > 0 ? (
-                  <motion.div
-                    key="send"
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 20, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Send className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="search"
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 20, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="w-4 h-4" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
+    <div className="w-full flex justify-center relative">
+      <div className="relative w-full lg:w-auto">
+        <Input
+          type="text"
+          placeholder="Search courses..."
+          value={query}
+          onChange={handleInputChange}
+          onFocus={handleFocus}
+          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+          onKeyDown={handleKeyDown}
+          className={`pl-10 pr-4 py-2 h-10 text-sm rounded-full focus-visible:ring-offset-0 border-gray-200 focus:border-primary transition-all duration-300
+            w-full
+            ${isFocused ? "lg:w-96" : "lg:w-64"}`}
+        />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+      </div>
 
-        <div className="w-full max-w-sm">
-          <AnimatePresence>
-            {isFocused && result && !selectedAction && (
-              <motion.div
-                className="w-full border rounded-md shadow-lg overflow-hidden border-gray-200 bg-white mt-1 z-50"
-                variants={container}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-              >
-                <motion.ul>
-                  {result.actions.map((action) => (
-                    <motion.li
-                      key={action.id}
-                      className="px-3 py-2 flex items-center justify-between hover:bg-gray-50 cursor-pointer"
-                      variants={item}
-                      layout
-                      onClick={() => setSelectedAction(action)}
-                    >
-                      <div className="flex items-center gap-2 justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-500">{action.icon}</span>
-                          <span className="text-sm font-medium text-gray-900">
-                            {action.label}
-                          </span>
-                          <span className="text-xs text-gray-400">
-                            {action.description}
-                          </span>
+      <AnimatePresence>
+        {isFocused && result && !selectedAction && (
+          <motion.div
+            className="absolute top-full left-1/2 -translate-x-1/2 w-full lg:w-96 mt-2 border rounded-2xl shadow-xl overflow-hidden border-gray-200 bg-white z-50"
+            variants={container}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+          >
+            <div className="max-h-80 overflow-y-auto">
+              <motion.ul>
+                {result.actions.map((action, index) => (
+                  <motion.li
+                    key={action.id}
+                    className={`px-4 py-3 flex items-center justify-between cursor-pointer border-b border-gray-100 last:border-b-0
+                      ${
+                        highlightedIndex === index
+                          ? "bg-gray-100"
+                          : "hover:bg-gray-50"
+                      }`}
+                    variants={item}
+                    layout
+                    onClick={() => {
+                      setSelectedAction(action);
+                      setIsFocused(false);
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        {action.icon}
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {action.label}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {action.description} • {action.short}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400">
-                          {action.short}
-                        </span>
-                        <span className="text-xs text-gray-400 text-right">
-                          {action.end}
-                        </span>
-                      </div>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
+                    </div>
+                    <div className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                      {action.end}
+                    </div>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+            <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <span>Press Enter to select</span>
+                <span>ESC to close • ↑↓ to navigate</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
