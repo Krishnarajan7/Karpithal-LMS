@@ -250,10 +250,10 @@ const Hero = ({ onGetStarted, onExploreCourses }) => {
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-gray-900">
-                        $49
+                        ₹49
                       </div>
                       <div className="text-sm text-gray-500 line-through">
-                        $199
+                        ₹199
                       </div>
                     </div>
                   </div>

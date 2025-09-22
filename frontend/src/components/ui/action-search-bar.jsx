@@ -174,78 +174,84 @@ function ActionSearchBar({ actions = allActions }) {
 
   return (
     <div className="w-full flex justify-center relative">
-      <div className="relative w-full lg:w-auto">
-        <Input
-          type="text"
-          placeholder="Search courses..."
-          value={query}
-          onChange={handleInputChange}
-          onFocus={handleFocus}
-          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-          onKeyDown={handleKeyDown}
-          className={`pl-10 pr-4 py-2 h-10 text-sm rounded-full focus-visible:ring-offset-0 border-gray-200 focus:border-primary transition-all duration-300
-            w-full
-            ${isFocused ? "lg:w-96" : "lg:w-64"}`}
-        />
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-      </div>
+      {/* centered wrapper with width animation */}
+      <div
+        className={`transition-all duration-300 ${
+          isFocused ? "w-96" : "w-64"
+        }`}
+      >
+        <div className="relative w-full">
+          <Input
+            type="text"
+            placeholder="Search courses..."
+            value={query}
+            onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+            onKeyDown={handleKeyDown}
+            className="pl-10 pr-4 py-2 h-10 text-sm rounded-full focus-visible:ring-offset-0 border-gray-200 focus:border-primary transition-all duration-300 w-full"
+          />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+        </div>
 
-      <AnimatePresence>
-        {isFocused && result && !selectedAction && (
-          <motion.div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full lg:w-96 mt-2 border rounded-2xl shadow-xl overflow-hidden border-gray-200 bg-white z-50"
-            variants={container}
-            initial="hidden"
-            animate="show"
-            exit="exit"
-          >
-            <div className="max-h-80 overflow-y-auto">
-              <motion.ul>
-                {result.actions.map((action, index) => (
-                  <motion.li
-                    key={action.id}
-                    className={`px-4 py-3 flex items-center justify-between cursor-pointer border-b border-gray-100 last:border-b-0
-                      ${
-                        highlightedIndex === index
-                          ? "bg-gray-100"
-                          : "hover:bg-gray-50"
-                      }`}
-                    variants={item}
-                    layout
-                    onClick={() => {
-                      setSelectedAction(action);
-                      setIsFocused(false);
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                        {action.icon}
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {action.label}
+        {/* Dropdown aligned with input */}
+        <AnimatePresence>
+          {isFocused && result && !selectedAction && (
+            <motion.div
+              className="absolute top-full left-0 w-full mt-2 border rounded-2xl shadow-xl overflow-hidden border-gray-200 bg-white z-50"
+              variants={container}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+            >
+              <div className="max-h-80 overflow-y-auto">
+                <motion.ul>
+                  {result.actions.map((action, index) => (
+                    <motion.li
+                      key={action.id}
+                      className={`px-4 py-3 flex items-center justify-between cursor-pointer border-b border-gray-100 last:border-b-0
+                        ${
+                          highlightedIndex === index
+                            ? "bg-gray-100"
+                            : "hover:bg-gray-50"
+                        }`}
+                      variants={item}
+                      layout
+                      onClick={() => {
+                        setSelectedAction(action);
+                        setIsFocused(false);
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                          {action.icon}
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {action.description} • {action.short}
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {action.label}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {action.description} • {action.short}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
-                      {action.end}
-                    </div>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </div>
-            <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <span>Press Enter to select</span>
-                <span>ESC to close • ↑↓ to navigate</span>
+                      <div className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                        {action.end}
+                      </div>
+                    </motion.li>
+                  ))}
+                </motion.ul>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
+                <div className="flex items-center justify-between text-xs text-gray-500">
+                  <span>Press Enter to select</span>
+                  <span>ESC to close &nbsp;• &nbsp;↑↓ to navigate</span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

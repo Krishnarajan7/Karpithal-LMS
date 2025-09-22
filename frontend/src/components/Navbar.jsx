@@ -181,7 +181,6 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
 
             <motion.div
               className="flex items-center space-x-4 ml-4 flex-shrink-0"
-              // animate={{ x: showSearchExpand && !isMobileMenuOpen ? 80 : 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               <Button
@@ -214,7 +213,7 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
             >
               <Menu className="w-5 h-5" />
             </button>
-          </div>
+          </div>  
         </div>
 
         {/* Mobile Search Modal */}
