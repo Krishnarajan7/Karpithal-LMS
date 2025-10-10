@@ -10,12 +10,38 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === "development" && componentTagger(),
   ].filter(Boolean),
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+
+  build: {
+    // Increase the default chunk size warning limit (default = 500)
+    chunkSizeWarningLimit: 1000,
+
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Split vendor libraries into separate chunks
+          if (id.includes("node_modules")) {
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "react-vendor";
+            }
+            if (id.includes("lodash")) {
+              return "lodash";
+            }
+            if (id.includes("chart.js")) {
+              return "chartjs";
+            }
+            // All other node_modules go here
+            return "vendor";
+          }
+        },
+      },
     },
   },
 }));
