@@ -5,16 +5,19 @@ from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator, FileExtensionValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Helper functions
 def user_profile_picture_path(instance, filename):
     """
     Generate a unique file path for user profile pictures using UUID.
+    Handles unsaved users gracefully.
     """
     ext = filename.split('.')[-1].lower()
     filename = f"{uuid.uuid4()}.{ext}"
-    return os.path.join("profile_pictures", str(instance.user.id), filename)
-
+    folder = str(instance.user.pk or uuid.uuid4())
+    return os.path.join("profile_pictures", folder, filename)
 
 def validate_image_size(image):
     """
@@ -25,11 +28,12 @@ def validate_image_size(image):
         raise ValidationError(f"Image size must be less than {max_size // (1024*1024)}MB.")
 
 
-# User Model
+# Custom User Model
 class User(AbstractUser):
     """
     Custom User model using email as username.
     Supports student, instructor, and admin roles.
+    OAuth support for Google and GitHub.
     """
 
     # Roles
@@ -52,13 +56,29 @@ class User(AbstractUser):
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=STUDENT)
 
-    # New instructors/admins inactive by default until approved
-    is_active = models.BooleanField(
-        default=True,
-        help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unapproved instructors/admins will have this set to False."
-        ),
+    # Approval & verification
+    is_approved = models.BooleanField(
+        default=False,
+        help_text=_("Instructors/Admins must be approved before accessing the platform."),
+    )
+    is_verified = models.BooleanField(
+        default=False,
+        help_text=_("Email must be verified for normal users."),
+    )
+
+    # OAuth support
+    google_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
+    github_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
+    OAUTH_PROVIDER_CHOICES = [
+        ("google", "Google"),
+        ("github", "GitHub"),
+    ]
+    oauth_provider = models.CharField(
+        max_length=20,
+        choices=OAUTH_PROVIDER_CHOICES,
+        blank=True,
+        null=True,
+        help_text=_("Indicates if the user signed up via a social provider."),
     )
 
     # Use email as username
@@ -67,10 +87,15 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         """
-        Automatically deactivate new instructors/admins until approved.
+        Automatically approve students and handle OAuth users.
         """
-        if self.role in [self.INSTRUCTOR, self.ADMIN] and not self.pk:
-            self.is_active = False
+        if self.role == self.STUDENT:
+            self.is_approved = True
+
+        # If signed up via OAuth, mark email as verified automatically
+        if self.oauth_provider:
+            self.is_verified = True
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -79,7 +104,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
-        indexes = [models.Index(fields=["role"])]
+        indexes = [models.Index(fields=["role"]), models.Index(fields=["oauth_provider"])]
 
 
 # UserProfile Model
@@ -122,3 +147,10 @@ class UserProfile(models.Model):
     class Meta:
         verbose_name = _("user profile")
         verbose_name_plural = _("user profiles")
+
+
+# Signal to automatically create UserProfile when a User is created
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
