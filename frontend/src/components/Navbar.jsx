@@ -3,6 +3,7 @@ import { Search, Menu, X, ChevronDown, GraduationCap, Code, Palette, TrendingUp,
 import { Button } from '@/components/ui/button';
 import { ActionSearchBar } from '@/components/ui/action-search-bar';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 
 const Navbar = ({ onSignInClick, onSignUpClick }) => {
@@ -52,7 +53,7 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
     closed: {
       x: "-100%",
       transition: {
-        type: "spring",
+        type: "spring" ,
         stiffness: 400,
         damping: 40
       }
@@ -76,12 +77,12 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
-          <div className="flex items-center space-x-2 flex-shrink-0">
+          <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <GraduationCap className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900">Karpithal</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6 flex-shrink-0">
@@ -122,20 +123,24 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
               )}
             </div>
             
-            <a href="#" className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 text-sm">
+            <Link to="/teach" className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 text-sm">
               Teach
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 text-sm">
+            </Link>
+            <Link to="/about" className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 text-sm">
               About
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 text-sm">
+            </Link>
+            <Link to="/business" className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 text-sm">
               Business
-            </a>
+            </Link>
           </div>
 
-          {/* Search & Actions */}
-          <div className="hidden lg:flex items-center space-x-3 flex-shrink-0">
+          {/* Search & Actions - Centered with flex-grow */}
+          <div className="hidden lg:flex items-center justify-end space-x-3 flex-grow">
             <ActionSearchBar />
+          </div>
+
+          {/* Auth Buttons - Always on the right */}
+          <div className="hidden lg:flex items-center space-x-3 flex-shrink-0">
             <Button
               variant="ghost"
               onClick={onSignInClick}
@@ -152,7 +157,7 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
           </div>
 
           {/* Mobile Actions */}
-          <div className="flex md:hidden items-center space-x-2">
+          <div className="flex md:hidden items-center space-x-2 ml-auto">
             <button
               onClick={() => setShowMobileSearch(!showMobileSearch)}
               className="p-2 rounded-lg text-gray-700 hover:bg-gray-100"
@@ -303,15 +308,15 @@ const Navbar = ({ onSignInClick, onSignUpClick }) => {
                   <div className="border-t border-gray-100 pt-4">
                     <h3 className="text-base font-bold text-gray-900 mb-3">More from Karpithal</h3>
                     <div className="space-y-1">
-                      <a href="#" className="flex items-center p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Link to="/teach" className="flex items-center p-2.5 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                         <span className="font-medium text-gray-900 text-sm">Teach on Karpithal</span>
-                      </a>
-                      <a href="#" className="flex items-center p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
+                      </Link>
+                      <Link to="/about" className="flex items-center p-2.5 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                         <span className="font-medium text-gray-900 text-sm">About us</span>
-                      </a>
-                      <a href="#" className="flex items-center p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
+                      </Link>
+                      <Link to="/business" className="flex items-center p-2.5 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                         <span className="font-medium text-gray-900 text-sm">Karpithal Business</span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
 

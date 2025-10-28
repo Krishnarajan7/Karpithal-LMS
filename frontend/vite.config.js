@@ -20,13 +20,11 @@ export default defineConfig(({ mode }) => ({
   },
 
   build: {
-    // Increase the default chunk size warning limit (default = 500)
     chunkSizeWarningLimit: 1000,
 
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Split vendor libraries into separate chunks
           if (id.includes("node_modules")) {
             if (id.includes("react") || id.includes("react-dom")) {
               return "react-vendor";
@@ -37,7 +35,6 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("chart.js")) {
               return "chartjs";
             }
-            // All other node_modules go here
             return "vendor";
           }
         },
