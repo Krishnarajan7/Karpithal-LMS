@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Users, TrendingUp, Shield, Award, BarChart, Briefcase, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const Business = () => {
@@ -46,12 +45,7 @@ const Business = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar 
-        onSignInClick={() => window.location.href = '/signin'}
-        onSignUpClick={() => window.location.href = '/signup'}
-      />
-      
+    <div className="min-h-screen bg-background pt-16">
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-br from-primary/10 via-secondary/5 to-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
