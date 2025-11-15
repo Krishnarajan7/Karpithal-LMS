@@ -38,7 +38,10 @@ const HowItWorks = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold text-foreground mb-4">
-            How Karpithal Works
+            How&nbsp; 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                Karpithal Works
+              </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Your journey to mastery starts here. Follow these simple steps to transform your skills and career.

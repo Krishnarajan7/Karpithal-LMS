@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/command";
 import { Link } from "react-router-dom";
 
+
 export default function Navbar({
   logo = {
     url: "/",
@@ -45,59 +46,80 @@ export default function Navbar({
   menu = [
     { title: "Home", url: "/" },
     {
-      title: "Categories",
+      title: "Explore",
       url: "#",
       items: [
         {
-          title: "Programming",
-          description: "Learn coding and software development",
-          icon: <Boxes className="size-5 shrink-0" />,
-          url: "#",
+          title: "All Courses",
+          description: "Browse our complete course catalog",
+          icon: <Book className="size-5 shrink-0" />,
+          url: "/courses",
         },
         {
-          title: "Design",
-          description: "Master design tools and principles",
-          icon: <Palette className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Business",
-          description: "Develop business and entrepreneurship skills",
+          title: "Learning Paths",
+          description: "Structured learning journeys for your goals",
           icon: <LayoutDashboard className="size-5 shrink-0" />,
-          url: "/business",
+          url: "#",
+        },
+        {
+          title: "Certifications",
+          description: "Earn recognized certificates",
+          icon: <Sparkles className="size-5 shrink-0" />,
+          url: "#",
+        },
+        {
+          title: "Free Resources",
+          description: "Access free learning materials",
+          icon: <Palette className="size-5 shrink-0" />,
+          url: "/resources",
         },
       ],
     },
     {
-      title: "Pages",
+      title: "Resources",
       url: "#",
       items: [
         {
-          title: "About",
-          description: "Learn more about our platform and mission",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "/about",
-        },
-        {
-          title: "Teach",
-          description: "Share your knowledge and become an instructor",
+          title: "Community",
+          description: "Connect with fellow learners",
           icon: <Users className="size-5 shrink-0" />,
-          url: "/teach",
+          url: "/community",
         },
         {
-          title: "Business",
-          description: "Enterprise solutions for organizations",
+          title: "Blog",
+          description: "Latest insights and learning tips",
+          icon: <Book className="size-5 shrink-0" />,
+          url: "#",
+        },
+        {
+          title: "Tutorials",
+          description: "Step-by-step learning guides",
           icon: <GraduationCap className="size-5 shrink-0" />,
-          url: "/business",
+          url: "#",
+        },
+        {
+          title: "Help Center",
+          description: "Get support when you need it",
+          icon: <History className="size-5 shrink-0" />,
+          url: "#",
         },
       ],
+    },
+    {
+      title: "About",
+      url: "/about",
+    },
+    {
+      title: "Business",
+      url: "/business",
     },
   ],
 
   mobileExtraLinks = [
-    { name: "About", url: "/about" },
+    { name: "Courses", url: "/courses" },
+    { name: "Resources", url: "/resources" },
+    { name: "Community", url: "/community" },
     { name: "Teach", url: "/teach" },
-    { name: "Business", url: "/business" },
   ],
 
   auth = {
